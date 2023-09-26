@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .update-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .update-input {
+        display: flex;
+        align-items: center;
+    }
+
+    .update-input input[type="number"] {
+        margin-right: 2px;
+    }
+
+    .update-btn {
+        background-color: #088178;;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-indent: -6px;
+    }
+
+    .update-btn:hover {
+        background-color: #45a049;
+    }
+    
+    .messages {
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #E3E6F3;
+        color: #000;
+        border-radius: 4px;
+    }
+    
+    #order {
+        margin-top: 20px;
+    }
+    
+    #order h3 {
+        margin-bottom: 10px;
+    }
+    
+    #order form div {
+        margin-bottom: 10px;
+    }
+    
+    #order label {
+        display: inline-block;
+        width: 100px;
+    }
+    
+    #order input[type="text"],
+    #order input[type="email"],
+    #order textarea {
+        width: 300px;
+    }
+    
+    #order input[type="submit"] {
+        background-color: #088178;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    #order input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<section id="page-header" class="cart-header">
+    <h2>#readmore</h2>
+    <p>Read all case studies about our products!</p>
+</section>
+
+<section id="cart" class="section-p1">
+    <!-- Display error messages -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>Image</td>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Subtotal</td>
+                <td>Remove</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cart_item in cart_items %}
+            <tr>
+                <td><img src="{{ cart_item.product.main_image.url }}" alt=""></td>
+                <td>{{ cart_item.product.title }}</td>
+                <td>${{ cart_item.product.price }}</td>
+                <td style="text-align: center;">
+                    <form action="{% url 'update_cart' cart_item.id %}" method="post" class="update-form">
+                        {% csrf_token %}
+                        <div class="update-input">
+                            <input type="number" name="quantity" value="{{ cart_item.quantity }}">
+                            <input type="submit" value="Update" class="update-btn">
+                        </div>
+                    </form>
+                </td>
+                <td>${{ cart_item.subtotal }}</td>
+                <td>
+                    <a href="{% url 'delete_cart_item' cart_item.id %}" style="color: #000;" onclick="return confirm('Are you sure you want to remove this item from your cart?');">
+                        <i class="fa fa-trash-o" style="font-size: 21px;"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if cart_items %}
+    <section id="order" class="section-p1">
+        <h3>Order Details</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" required></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Submit Order">
+            </div>
+        </form>
+    </section>
+    {% endif %}
+
+</section>
+{% endblock %}

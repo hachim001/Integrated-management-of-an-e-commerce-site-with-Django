@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="page-header">
+    <h2>#stayhome</h2>
+    <p>Save more with coupons & up to 70% off!</p>
+</section>
+
+<section id="search-bar">
+    <form method="GET" action="{% url 'shop' %}">
+        <input type="text" name="query" placeholder="Rechercher un produit">
+        <input type="text" name="marque" placeholder="Marque">
+        <select name="category">
+            <option value="">Toutes les catégories</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Rechercher</button>
+    </form>
+</section>
+
+<section id="product1" class="section-p1">
+    <h2>Our Products</h2>
+    <p>Fashion-forward featured clothing collection with innovative designs</p>
+    <div class="pro-container">
+        {% if products %}
+            {% for product in products %}
+            <div class="pro" onclick='window.location.href="/detail/{{ product.id }}/";'>
+                <img src="{{ product.main_image.url }}" alt="">
+                <div class="des">
+                    <span>{{ product.marque }}</span>
+                    <h5>{{ product.title }}</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h4>${{ product.price }}</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No products found.</p>
+        {% endif %}
+    </div>
+</section>
+
+<section id="pagination" class="section-p1">
+    {% for page in pages %}
+        <a href="?page={{ page }}">{{ page }}</a>
+    {% endfor %}
+    <a href="#"><i class="fal fa-long-arrow-alt-right"></i></a>
+</section>
+
+<script src="{% static 'script.js' %}"></script>
+
+<style>
+    #search-bar {
+        background-color:#E3E6F3;
+        padding: 20px;
+        text-align: center;
+      }
+      
+      #search-bar input[type="text"],
+      #search-bar select {
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      #search-bar button {
+        padding: 10px 20px;
+        background-color: #088178;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      #search-bar button:hover {
+        background-color: #45a049;
+      }
+      
+      #search-bar form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      @media (max-width: 768px) {
+        #search-bar form {
+          flex-direction: column;
+        }
+      
+        #search-bar input[type="text"],
+        #search-bar select {
+          margin-bottom: 10px;
+          margin-right: 0;
+        }
+        
+          
+          #product1 .pro-container p {
+            text-align: center;
+          }
+      }   
+       
+</style>
+
+{% endblock %}

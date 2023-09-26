@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<section id="hero">
+    <h4>Welcome to our online store</h4>
+    <h2>Discover a wide range of</h2>
+    <h1>products for all your needs</h1>
+    <p>Shop with confidence and convenience from the comfort of your home</p>
+    <button>Shop Now</button>
+</section>
+
+<section id="features" class="section-p1">
+    <div class="fe-box">
+        <img src="{% static 'img/features/f1.png' %}" alt="">
+        <h6>Free Shipping</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f2.png' %}" alt="">
+        <h6>Online Order</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f3.png' %}" alt="">
+        <h6>Save Money</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f4.png' %}" alt="">
+        <h6>Promotions</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f5.png' %}" alt="">
+        <h6>Happy Sell</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f6.png' %}" alt="">
+        <h6>F24/7 Support</h6>
+    </div>
+</section>
+<section id="product1" class="section-p1">
+    <h2>Featured Products</h2>
+    <p>Fashion-forward featured clothing collection with innovative designs</p>
+    <div class="pro-container">
+        {% for product in products %}
+            <div class="pro" onclick='window.location.href="/detail/{{ product.id }}/";'>
+                <img src="{{ product.main_image.url }}" alt="">
+                <div class="des">
+                    <span>{{ product.marque }}</span>
+                    <h5>{{ product.title }}</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h4>${{ product.price }}</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+            {% endfor %}
+    </div>
+</section>
+<section id="banner" class="section-m1">
+    <h4>Repair Services</h4>
+    <h2>Up to <span>70% off</span> All t-SHirts & Accessories</h2>
+    <button class="normal">Explore More</button>
+</section>
+<section id="product1" class="section-p1">
+    
+    <h2>New Arrivals</h2>
+    <p>New collection New Morden Design</p>
+    
+    <div class="pro-container">
+        {% for product in products %}
+            <div class="pro" onclick='window.location.href="/detail/{{ product.id }}/";'>
+                <img src="{{ product.main_image.url }}" alt="">
+                <div class="des">
+                    <span>{{ product.marque }}</span>
+                    <h5>{{ product.title }}</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h4>${{ product.price }}</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+            {% endfor %}
+    </div>
+    
+</section>
+  <script src="{% static 'script.js' %}"></script>
+{% endblock %}
+
